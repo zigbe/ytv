@@ -1,0 +1,6 @@
+- puxar os horários do server e não local
+- um filme de 2 horas que começar as 23 vai dar pau se entrar depois de meia noite.
+- loop da programação
+- tocar o próximo quando o atual acabar
+- barra de progresso do filme atual
+- botao mute/unmute
