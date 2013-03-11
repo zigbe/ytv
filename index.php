@@ -14,7 +14,6 @@
 		<link rel="stylesheet" type="text/css" media="all" href="styles.css" />
 		<script src="https:////ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script type="text/javascript" src="jlinq.js" ></script>
-        <script type="text/javascript" src="data.js" ></script>
         <script type="text/javascript" src="programacao.js" ></script>
 		<script src="okvideo.js"></script>
 
