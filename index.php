@@ -1,19 +1,21 @@
 <?php
     $localtime = localtime();
-    $hour = ($localtime[2] < 10 ? "0" . $localtime[2] : $localtime[2]);
-	$min = ($localtime[1] < 10 ? "0" . $localtime[1] : $localtime[1]);
+    $year = strval( ($localtime[5]+1900) );
+    $month = strval( ($localtime[4]+1) );
+    $day = strval($localtime[3]);
+    $hour = strval($localtime[2]);
+	$min = strval($localtime[1]);
+    $sec = strval($localtime[0]);
 	$horaServer = $hour . ":" . $min;
 	echo $horaServer;
 ?>
 <html>
 	<head>
-
 		<link rel="stylesheet" type="text/css" media="all" href="styles.css" />
 		<script src="https:////ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script type="text/javascript" src="jlinq.js" ></script>
         <script type="text/javascript" src="data.js" ></script>
         <script type="text/javascript" src="programacao.js" ></script>
-
 		<script src="okvideo.js"></script>
 
 		<script language="javascript">
@@ -47,36 +49,41 @@
 
 
 			/// ver que horas sao e que dia é hoje
-			var d = new Date();
-			var horas = d.getHours().toString();
-			var minutos =  d.getMinutes().toString();
-            var segundos = d.getSeconds();
-			var dia = d.getDate();
-			var mes = d.getMonth() + 1;
-			var ano = d.getFullYear();
-            var horaAtual = ((horas < 10) ? "0" + horas : horas) + ":" + ((minutos < 10) ? "0" + minutos : minutos);
+			var dServer = new Date();
+			var sHoras = <?php echo $hour; ?>;
+			var sMinutos =  <?php echo $min; ?>;
+            var sSegundos = <?php echo $sec; ?>;
+			var sDia = <?php echo $day; ?>;
+			var sMes = <?php echo $month; ?>;
+			var sAno = <?php echo $year; ?>;
+            
+            var dLocal = new Date();
+            var lHoras = dLocal.getHours();
+    		var lMinutos = dLocal.getMinutes();
+            var lSegundos = dLocal.getSeconds();
+			var lDia = dLocal.getDate();
+			var lMes = dLocal.getMonth() + 1;
+			var lAno = dLocal.getFullYear();
+            
+            var horaLocal = ((lHoras < 10) ? "0" + lHoras : lHoras) + ":" + ((lMinutos < 10) ? "0" + lMinutos : lMinutos);
 
 			
-			///document.write("<div id=horas>" + horas + " - " + minutos + " - " + dia + " - " + mes + " - " + ano + "</div>");
-			
-
-			/// verificar qual eh o programa da vez
-			
+            /// verifica qual o programa da vez
 
 			var result = jlinq.from(objeto.programacao)
-  			.starts('ano', ano)
+  			.starts('ano', sAno)
   			.select();
 
   			result = jlinq.from(result)
-  			.starts('mes', mes)
+  			.starts('mes', sMes)
   			.select();
 
   			result = jlinq.from(result)
-  			.starts('dia', dia)
+  			.starts('dia', sDia)
   			.select();
   			
   			result = jlinq.from(result)
-			.sort("hora")
+			.sort('hora')
 			.select();
 
 
@@ -95,7 +102,7 @@
   			}
 
 
-  			var mAtual = d.getHours()*60 + d.getMinutes();
+  			var mAtual = <?php echo $hour ?> * 60 + <?php echo $min ?>;
 
   			var dif = mAtual - getClosestValues(programacaoEmMinutos,mAtual)[0];
   			var index = programacaoEmMinutos.indexOf(getClosestValues(programacaoEmMinutos,mAtual)[0]);
@@ -113,7 +120,7 @@
 			$(function(){
 				$.okvideo({
 					video: result[index].url,
-					startSec: (dif * 60 + segundos),
+					startSec: (dif * 60 + sSegundos),
                     volume: 0,
 					adproof: true,
 					onFinished: function() { 
@@ -129,7 +136,7 @@
 			//document.getElementById("now").innerHTML = "<p class='titulo_box'>AGORA</p><p class='titulo_programa'>" + "Titulo" + "</p><a href=" + result[0].url + " target='_blank'>" + result[0].nome + "</a>";
 			//document.getElementById("next").innerHTML = "<p class='titulo_box'>A SEGUIR</p>" + "Horario Proximo" + " &nbsp;" + "Titulo Proximo;
             
-			document.write("<div id=hora>" + horaAtual + "</div>");
+			document.write("<div id=hora>" + horaLocal + "</div>");
 			document.write("<div id=now>NOW PLAYING<br>" + result[0].nome + "</div>");
 			//document.write("<div id=next>NEXT SHOW<br>" + result[0].hora + " &nbsp; " + result[0].nome + "</div>");
 			
